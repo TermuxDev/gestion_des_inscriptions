@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fiche d'inscription étudiant</title>
+<style>
+  :root{
+    --bg:#fafefc; --fg:#090b3c; --muted:#573e4d; --primary:#a21c3b; --line:#d9d6df; --success:#16a34a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+       color:var(--fg);background:var(--bg)}
+  .page{max-width:1100px;margin:24px auto;padding:20px}
+  .card{background:#fffffe;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 12px rgba(9,11,60,.08);transition:all .3s ease}
+  .header{padding:25px 20px;border-bottom:2px solid var(--primary);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#fffffe 0%,#fbf4f0 100%)}
+  h1{font-size:24px;margin:0;color:var(--primary);font-weight:700;letter-spacing:-.5px}
+  .actions{display:flex;gap:10px}
+  button{border:none;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:600;transition:all .3s ease}
+  .btn-primary{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(162,28,59,.15)}
+  .btn-primary:hover{background:#391f20;transform:translateY(-2px);box-shadow:0 4px 12px rgba(162,28,59,.25)}
+  .btn-light{background:#eef2ff;color:#1e40af}
+  .content{padding:20px}
+  .section{margin:18px 0 8px;font-weight:800;font-size:15px;background:linear-gradient(135deg,var(--primary),#391f20);color:#fff;border:none;padding:8px 10px;border-radius:8px}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+  .col-12{grid-column:span 12}.col-8{grid-column:span 8}.col-6{grid-column:span 6}
+  .col-4{grid-column:span 4}.col-3{grid-column:span 3}.col-2{grid-column:span 2}
+  label{font-size:13px;font-weight:700;margin-bottom:6px;display:block;color:var(--fg)}
+  input[type="text"],input[type="email"],input[type="tel"],input[type="date"],input[type="number"],select,textarea{
+    width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;background:#fff;transition:all .2s ease;
+  }
+  input[type="text"]:focus,input[type="email"]:focus,input[type="tel"]:focus,input[type="date"]:focus,input[type="number"]:focus,select:focus,textarea:focus{
+    border-color:var(--primary);box-shadow:0 0 0 3px rgba(162,28,59,.1);outline:none
+  }
+  textarea{min-height:80px;resize:vertical;font-family:inherit}
+  .inline{display:flex;gap:14px;flex-wrap:wrap}
+  .inline label{font-weight:600;color:var(--fg)}
+  .photo-uploader{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+  .photo-frame{width:140px;height:170px;border:2px dashed var(--primary);border-radius:10px;display:flex;
+               align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(135deg,rgba(162,28,59,.02),rgba(162,28,59,.05));transition:all .3s ease}
+  .photo-frame:hover{border-color:#391f20;background:linear-gradient(135deg,rgba(162,28,59,.05),rgba(162,28,59,.08))}
+  .photo-frame img{width:100%;height:100%;object-fit:cover}
+  .muted{color:var(--muted);font-size:12px}
+  hr{border:none;border-top:1px solid var(--line);margin:14px 0;opacity:.5}
+  fieldset{animation:slideUp .4s ease}
+  @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* -------- Print layout -------- */
+  .print-wrap{display:none}
+  @media print{
+    body{background:#fff}
+    .page, .card{box-shadow:none;border:none}
+    .header, .actions, .content form{display:none !important}
+    .print-wrap{display:block;padding:0 8px}
+    .print-title{font-size:15px;font-weight:750;text-align:center}
+    .print-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .print-block{border:1px solid #000;padding:8px 10px;min-height:28px}
+    .print-row{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap}
+    .print-label{font-weight:500}
+    .print-line{flex:1 1 auto;border-bottom:1px dotted #000;min-width:120px}
+    .print-photo{position:absolute;top:20px;right:20px;width:80px;height:100px;border:1px solid #000;
+                 display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .print-photo img{width:100%;height:100%;object-fit:cover;}
+    .print-section{font-weight:550;margin:10px 0 6px;border:1px solid #000;padding:4px 6px;background:#f7f7f7}
+  }
+  /* -------- Responsive -------- */
+@media (max-width: 992px) {
+  .page { padding: 15px; }
+  h1 { font-size: 22px; }
+  .col-8, .col-6, .col-4, .col-3, .col-2 { grid-column: span 6; }
+  fieldset { padding: 15px !important; margin-bottom: 20px !important; }
+  [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 768px) {
+  .page { padding: 12px; margin: 12px auto; }
+  .card { border-radius: 10px; }
+  .header { padding: 18px 15px; border-bottom: 1.5px solid var(--primary); }
+  h1 { font-size: 20px; letter-spacing: 0; }
+  .content { padding: 15px; }
+  fieldset { padding: 12px !important; margin-bottom: 18px !important; border-radius: 6px !important; }
+  legend { font-size: 13px !important; padding: 0 8px !important; }
+  .col-8, .col-6, .col-4, .col-3, .col-2 { grid-column: span 12; }
+  label { font-size: 12px; margin-bottom: 5px; }
+  input, select, textarea { padding: 9px; font-size: 14px; }
+  textarea { min-height: 70px; }
+  button { width: 100%; margin-bottom: 8px; font-size: 14px; }
+  .photo-uploader { align-items: center; }
+  .photo-frame { width: 110px; height: 140px; border-width: 1.5px; }
+}
+
+@media (max-width: 600px) {
+  .page { padding: 10px; margin: 10px auto; }
+  h1 { font-size: 18px; }
+  .header { padding: 15px 10px; }
+  .content { padding: 12px; }
+  fieldset { padding: 10px !important; margin-bottom: 15px !important; }
+  legend { font-size: 12px !important; }
+  button { padding: 10px 16px; font-size: 13px; }
+  .photo-frame { width: 100px; height: 130px; }
+  .btn-primary, .btn-secondary { padding: 10px 18px; font-size: 14px; width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .page { padding: 8px; margin: 8px auto; }
+  h1 { font-size: 16px; font-weight: 600; }
+  .header { padding: 12px 8px; min-height: auto; }
+  .content { padding: 10px; }
+  fieldset { padding: 8px !important; margin-bottom: 12px !important; border: 0.5px solid var(--line) !important; }
+  legend { font-size: 11px !important; padding: 0 6px !important; }
+  label { font-size: 11px; margin-bottom: 4px; }
+  input, select, textarea { padding: 8px; font-size: 13px; }
+  textarea { min-height: 60px; }
+  button { padding: 8px 14px; font-size: 12px; border-radius: 6px; }
+  .photo-uploader { gap: 6px; }
+  .photo-frame { width: 80px; height: 110px; border-width: 1px; }
+  .btn-primary, .btn-secondary { padding: 8px 14px; font-size: 12px; width: 100%; margin-bottom: 6px; }
+  div[style*="display: flex; gap: 10px"] { flex-direction: column !important; gap: 8px !important; }
+}
+
+</style>
+</head>
+<body>
+<body>
+  <div class="page">
+    <div class="card">
+      <div class="header">
+        <h1>Formulaire d'inscription étudiant</h1>
+      </div>
+
+      <div class="content">
+                    <form id="inscription-form" action="traitement/inscription_action.php" method="POST">
+
+                        <!-- Section 1: Identifiant et Informations d'Origine -->
+                        <fieldset style="border: 1px solid var(--bordure); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <legend style="font-weight: 600; color: var(--primaire); padding: 0 10px;">1. Identifiant et Informations d'Origine</legend>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-groupe">
+                                    <label for="id_permanent">ID Permanent</label>
+                                    <input type="text" id="id_permanent" name="id_permanent_etudiant" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="num_carte">N° Carte</label>
+                                    <input type="text" id="num_carte" name="num_carte_etu" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="cni">N° CNI</label>
+                                    <input type="text" id="cni" name="numero_de_cni_etudiant" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="num_table">N° Table</label>
+                                    <input type="text" id="num_table" name="numero_de_table" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="filiere_origine">Filière d'Origine</label>
+                                    <input type="text" id="filiere_origine" name="filiere_etudiant" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="nationalite">Nationalité</label>
+                                    <input type="text" id="nationalite" name="nationalite_etudiant" required>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- Section 2: État Civil et Profil -->
+                        <fieldset style="border: 1px solid var(--bordure); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <legend style="font-weight: 600; color: var(--primaire); padding: 0 10px;">2. État Civil et Profil</legend>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-groupe">
+                                    <label for="nom">Nom</label>
+                                    <input type="text" id="nom" name="nom_etudiant" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="prenom">Prénom</label>
+                                    <input type="text" id="prenom" name="prenom_etudiant" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="date_naissance">Date de Naissance</label>
+                                    <input type="date" id="date_naissance" name="date_naiss_etu" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="lieu_naissance">Lieu de Naissance</label>
+                                    <input type="text" id="lieu_naissance" name="lieu_naiss_etu" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="sexe">Sexe</label>
+                                    <select id="sexe" name="sex_etudiant" required>
+                                        <option value="">-- Choisir --</option>
+                                        <option value="M">Masculin</option>
+                                        <option value="F">Féminin</option>
+                                    </select>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="serie">Série du BAC</label>
+                                    <select id="serie" name="serie_etudiant" required>
+                                        <option value="">-- Choisir --</option>
+                                        <option value="A">Série A</option>
+                                        <option value="C">Série C</option>
+                                        <option value="D">Série D</option>
+                                        <option value="E">Série E</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- Section 3: Coordonnées et Contacts -->
+                        <fieldset style="border: 1px solid var(--bordure); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <legend style="font-weight: 600; color: var(--primaire); padding: 0 10px;">3. Coordonnées et Contacts</legend>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-groupe">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email_etu" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="contact1">Téléphone Principal</label>
+                                    <input type="tel" id="contact1" name="contact_etu" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="contact2">Téléphone Secondaire</label>
+                                    <input type="tel" id="contact2" name="contact_2_etudiant">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="adresse">Adresse / Quartier</label>
+                                    <input type="text" id="adresse" name="adresse_etu" required>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- Section 4: Informations Médicales et Spécificités -->
+                        <fieldset style="border: 1px solid var(--bordure); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <legend style="font-weight: 600; color: var(--primaire); padding: 0 10px;">4. Informations Médicales et Spécificités</legend>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-groupe">
+                                    <label for="groupe_sanguin">Groupe Sanguin</label>
+                                    <select id="groupe_sanguin" name="groupe_sanguin_etudiant">
+                                        <option value="">-- Choisir --</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="handicap">Situation de Handicap</label>
+                                    <select id="handicap" name="handicap_etudiant">
+                                        <option value="Non">Non</option>
+                                        <option value="Oui">Oui</option>
+                                    </select>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="nature_handicap">Nature du Handicap</label>
+                                    <input type="text" id="nature_handicap" name="nature_handicap_etudiant" placeholder="Si applicable">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="situation_matrimoniale">Situation Matrimoniale</label>
+                                    <select id="situation_matrimoniale" name="situation_matrimoniale_etudiant">
+                                        <option value="Célibataire">Célibataire</option>
+                                        <option value="Marié(e)">Marié(e)</option>
+                                        <option value="Divorcé(e)">Divorcé(e)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- Section 5: Informations Tuteur 1 -->
+                        <fieldset style="border: 1px solid var(--bordure); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <legend style="font-weight: 600; color: var(--primaire); padding: 0 10px;">5. Informations Parent / Tuteur 1</legend>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-groupe">
+                                    <label for="nom_tuteur1">Nom</label>
+                                    <input type="text" id="nom_tuteur1" name="nom_tuteur_1" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="prenom_tuteur1">Prénom</label>
+                                    <input type="text" id="prenom_tuteur1" name="prenom_tuteur_1" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="profession_tuteur1">Profession</label>
+                                    <input type="text" id="profession_tuteur1" name="profession_tuteur_1" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="contact_tuteur1">Téléphone</label>
+                                    <input type="tel" id="contact_tuteur1" name="contact_tuteur_1" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="email_tuteur1">Email</label>
+                                    <input type="email" id="email_tuteur1" name="email_tuteur_1">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="adresse_tuteur1">Adresse</label>
+                                    <input type="text" id="adresse_tuteur1" name="adresse_tuteur_1" required>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="lien_tuteur1">Lien de Parenté</label>
+                                    <select id="lien_tuteur1" name="lien_parente_tuteur_1" required>
+                                        <option value="">-- Choisir --</option>
+                                        <option value="Père">Père</option>
+                                        <option value="Mère">Mère</option>
+                                        <option value="Oncle">Oncle</option>
+                                        <option value="Tante">Tante</option>
+                                        <option value="Grand-mère">Grand-mère</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- Section 6: Informations Tuteur 2 -->
+                        <fieldset style="border: 1px solid var(--bordure); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <legend style="font-weight: 600; color: var(--primaire); padding: 0 10px;">6. Informations Parent / Tuteur 2 (Optionnel)</legend>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-groupe">
+                                    <label for="nom_tuteur2">Nom</label>
+                                    <input type="text" id="nom_tuteur2" name="nom_tuteur_2">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="prenom_tuteur2">Prénom</label>
+                                    <input type="text" id="prenom_tuteur2" name="prenom_tuteur_2">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="profession_tuteur2">Profession</label>
+                                    <input type="text" id="profession_tuteur2" name="profession_tuteur_2">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="contact_tuteur2">Téléphone</label>
+                                    <input type="tel" id="contact_tuteur2" name="contact_tuteur_2">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="email_tuteur2">Email</label>
+                                    <input type="email" id="email_tuteur2" name="email_tuteur_2">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="adresse_tuteur2">Adresse</label>
+                                    <input type="text" id="adresse_tuteur2" name="adresse_tuteur_2">
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="lien_tuteur2">Lien de Parenté</label>
+                                    <select id="lien_tuteur2" name="lien_parente_tuteur_2">
+                                        <option value="">-- Choisir --</option>
+                                        <option value="Père">Père</option>
+                                        <option value="Mère">Mère</option>
+                                        <option value="Oncle">Oncle</option>
+                                        <option value="Tante">Tante</option>
+                                        <option value="Grand-mère">Grand-mère</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- Section 7: Statut Universitaire et Système -->
+                        <fieldset style="border: 1px solid var(--bordure); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <legend style="font-weight: 600; color: var(--primaire); padding: 0 10px;">7. Statut Universitaire et Système</legend>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-groupe">
+                                    <label for="statut">Statut Inscription</label>
+                                    <select id="statut" name="statut_inscription" required>
+                                        <option value="">-- Choisir --</option>
+                                        <option value="Boursier">Boursier</option>
+                                        <option value="Non-boursier">Non-boursier</option>
+                                        <option value="En attente">En attente</option>
+                                    </select>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="annee_academique">Année Académique</label>
+                                    <select id="annee_academique" name="annee_academique_etudiant" required>
+                                        <option value="">-- Choisir --</option>
+                                        <option value="2024-2025">2024-2025</option>
+                                        <option value="2025-2026">2025-2026</option>
+                                        <option value="2026-2027">2026-2027</option>
+                                    </select>
+                                </div>
+                                <div class="form-groupe">
+                                    <label for="date_creation">Date de Création Dossier</label>
+                                    <input type="date" id="date_creation" name="date_creation_dossier" value="2026-05-26" readonly style="background: var(--fond);">
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div style="margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button type="submit" class="btn-primary" style="flex: 1; min-width: 150px;">Soumettre Inscription</button>
+                            <button type="reset" class="btn-secondary" style="flex: 1; min-width: 150px;">Réinitialiser</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="succes-section" style="display: none;">
+                <div class="carte" style="border-left: 4px solid var(--success); background: linear-gradient(135deg, rgba(22, 163, 74, 0.05), rgba(22, 163, 74, 0.02));">
+                    <h2 style="color: var(--success);">✓ Inscription Confirmée</h2>
+                    <div style="margin-top: 20px; font-size: 16px; line-height: 1.8;">
+                        <p><strong>Numéro d'Inscription :</strong> <span id="numero-inscription" style="color: var(--primaire); font-weight: 600;"></span></p>
+                        <p><strong>Date et Heure :</strong> <span id="date-heure"></span></p>
+                        <p><strong>Étudiant :</strong> <span id="etudiant-nom"></span></p>
+                        <p><strong>Filière :</strong> <span id="filiere-resultat"></span></p>
+                    </div>
+                    <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: var(--primaire); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500;">Nouvelle Inscription</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <style>
+        .btn-primary {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(162,28,59,.2);
+        }
+        .btn-primary:hover {
+            background: #391f20;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(162,28,59,.3);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        .btn-secondary {
+            padding: 12px 24px;
+            background: #f3f4f6;
+            color: var(--fg);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: var(--line);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .btn-secondary:active {
+            transform: scale(0.98);
+        }
+    </style>
+
+    <script>
+        document.getElementById('inscription-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nom = document.getElementById('nom').value;
+            const prenom = document.getElementById('prenom').value;
+            const filiere = document.getElementById('filiere_origine').value;
+            
+            const now = new Date();
+            const dateHeure = now.toLocaleString('fr-FR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            const numeroInscription = 'INS-' + now.getFullYear() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            
+            document.getElementById('numero-inscription').textContent = numeroInscription;
+            document.getElementById('date-heure').textContent = dateHeure;
+            document.getElementById('etudiant-nom').textContent = prenom + ' ' + nom;
+            document.getElementById('filiere-resultat').textContent = filiere;
+            
+            document.getElementById('formulaire-section').style.display = 'none';
+            document.getElementById('succes-section').style.display = 'block';
+            
+            // Optionnel : envoyer les données au serveur
+            // fetch('traitement/inscription_action.php', {
+            //     method: 'POST',
+            //     body: new FormData(this)
+            // });
+        });
+    </script>
+</body>
+</html>

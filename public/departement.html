@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsable de Département - Tableau de Bord</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="header-logo">UIYA YAMOUSSOUKRO</a>
+            <div class="header-user">
+                <span>Responsable Département</span>
+                <div class="header-user-avatar">RD</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <div class="layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <nav class="sidebar-menu">
+                <li><a href="#tableau-bord" class="active">Tableau de Bord</a></li>
+                <li><a href="#filieres">Filières</a></li>
+                <li><a href="#listes">Listes de Classe</a></li>
+                <li><a href="#infos">Infos</a></li>
+                <li><a href="#deconnexion">Déconnexion</a></li>
+            </nav>
+        </aside>
+
+        <!-- CONTENU PRINCIPAL -->
+        <main class="main-content">
+            <!-- EN-TÊTE DE PAGE -->
+            <div class="page-header">
+                <h1>Tableau de Bord</h1>
+                <p>Bienvenue, gérez les filières et consultez les listes de classe</p>
+            </div>
+
+            <!-- STATISTIQUES RAPIDES -->
+            <div class="grille">
+                <div class="carte">
+                    <div class="carte-stat">
+                        <div>
+                            <div class="carte-stat-nombre">3</div>
+                            <div class="carte-stat-label">Filières</div>
+                        </div>
+                    </div>
+                    <div class="carte-stat" style="background: linear-gradient(135deg, #16a34a, #15803d);">
+                        <div>
+                            <div class="carte-stat-nombre">127</div>
+                            <div class="carte-stat-label">Total Étudiants</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carte">
+                    <h2>Étudiants par Filière</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Filière</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Génie Logiciel</td>
+                                    <td>45</td>
+                                </tr>
+                                <tr>
+                                    <td>Systèmes Embarqués</td>
+                                    <td>38</td>
+                                </tr>
+                                <tr>
+                                    <td>Web et Mobile</td>
+                                    <td>44</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GESTION FILIÈRES -->
+            <div class="grille">
+                <div class="carte" id="filieres">
+                    <h2>Créer une Filière</h2>
+                    <form action="traitement/departement.php" method="POST">
+                        <div class="form-groupe">
+                            <label for="nom-filiere">Nom de la Filière</label>
+                            <input type="text" id="nom-filiere" name="nom_filiere" placeholder="Ex: Génie Logiciel" required>
+                        </div>
+                        <div class="form-groupe">
+                            <label for="niveau">Niveau</label>
+                            <input type="text" id="niveau" name="niveau" placeholder="Ex: L2" required>
+                        </div>
+                        <button type="submit">Ajouter Filière</button>
+                    </form>
+                </div>
+
+                <div class="carte">
+                    <h2>Filières et Étudiants</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Filière</th>
+                                    <th>Niveau</th>
+                                    <th>Étudiants</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Génie Logiciel</td>
+                                    <td>L2</td>
+                                    <td>45</td>
+                                </tr>
+                                <tr>
+                                    <td>Systèmes Embarqués</td>
+                                    <td>L3</td>
+                                    <td>38</td>
+                                </tr>
+                                <tr>
+                                    <td>Web et Mobile</td>
+                                    <td>L2</td>
+                                    <td>44</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LISTES DE CLASSE -->
+            <div class="grille">
+                <div class="carte" id="listes">
+                    <h2>Générer Liste de Classe</h2>
+                    <form action="traitement/liste_export.php" method="POST">
+                        <div class="form-groupe">
+                            <label for="filtre-filiere">Sélectionner Filière</label>
+                            <select id="filtre-filiere" name="id_filiere" required>
+                                <option value="">-- Choisir --</option>
+                                <option value="1">Génie Logiciel (L2)</option>
+                                <option value="2">Systèmes Embarqués (L3)</option>
+                                <option value="3">Web et Mobile (L2)</option>
+                            </select>
+                        </div>
+                        <button type="submit">Afficher Liste</button>
+                        <button type="button" onclick="exporterExcel()">Exporter Excel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- INFOS COMPTE -->
+            <div class="grille">
+                <div class="carte" id="infos">
+                    <h2>Mes Informations</h2>
+                    <form action="traitement/update_responsable.php" method="POST">
+                        <div class="form-groupe">
+                            <label for="email-responsable">Email</label>
+                            <input type="email" id="email-responsable" name="email_responsable" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-groupe">
+                            <label for="current-password">Mot de passe actuel</label>
+                            <input type="password" id="current-password" name="current_password" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-groupe">
+                            <label for="new-password">Nouveau mot de passe</label>
+                            <input type="password" id="new-password" name="new_password" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-groupe">
+                            <label for="confirm-password">Confirmer mot de passe</label>
+                            <input type="password" id="confirm-password" name="confirm_password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit">Mettre à jour</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartes = document.querySelectorAll('.carte');
+            cartes.forEach((carte, index) => {
+                carte.style.animation = `fadeInUp 0.5s ease ${index * 0.1}s forwards`;
+                carte.style.opacity = '0';
+            });
+
+            const menuLinks = document.querySelectorAll('.sidebar-menu a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    menuLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+
+        function exporterExcel() {
+            const form = document.querySelector('form[action="traitement/liste_export.php"]');
+            const filiere = form.querySelector('select[name="id_filiere"]').value;
+            if (filiere) {
+                window.location.href = `traitement/liste_export.php?id_filiere=${filiere}&export=excel`;
+            } else {
+                alert('Veuillez sélectionner une filière');
+            }
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

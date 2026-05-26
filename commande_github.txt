@@ -1,0 +1,24 @@
+
+
+## Les codes se tapent dans le terminal 
+
+
+#####################################################################
+
+Si vous voulez travailler, taper toujours cette commande :
+
+ 
+git pull origin main
+
+
+######################################################################
+
+Si je vous demande de pusher je code , vous taper ceci : 
+
+
+git pull origin main
+git add .
+git commit -m "fix : Mon commit (date) et votre (nom) "
+git push -u origin main
+
+######################################################################

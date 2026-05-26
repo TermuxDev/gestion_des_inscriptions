@@ -1,0 +1,426 @@
+/*
+:root {
+    --fond: #f0f4f8;
+    --fond-dark: #e2e8f0;
+    --texte: #1a202c;
+    --texte-secondaire: #4a5568;
+    --primaire: #2563eb;
+    --primaire-hover: #1d4ed8;
+    --secondaire: #64748b;
+    --secondaire-hover: #475569;
+    --bordure: #cbd5e1;
+    --blanc: #ffffff;
+    --danger: #dc2626;
+    --danger-hover: #b91c1c;
+    --success: #16a34a;
+    --success-hover: #15803d;
+    --info: #0891b2;
+    --ombre: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --ombre-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --ombre-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+*/
+
+:root {
+    /* Fonds de page, sections et conteneurs (Teintes claires, crème et ivoire) */
+    --fond: #fafefc;              /* --color-4 : Blanc opale très doux pour le fond général */
+    --fond-secondaire: #fbf4f0;   /* --color-5 : Crème chaud pour les blocs et formulaires */
+    --blanc: #fffffe;             /* --color-3 : Blanc pur pour les cartes et tables */
+    
+    /* Textes (Haute lisibilité) */
+    --texte: #090b3c;             /* --color-6 : Bleu nuit très sombre pour les titres et textes principaux */
+    --texte-secondaire: #573e4d;  /* --color-10 : Prune foncé pour les sous-titres et labels */
+    
+    /* Éléments d'accentuation et boutons (Vifs et professionnels) */
+    --primaire: #a21c3b;          /* --color-7 : Bordeaux/Rouge académique pour les actions principales */
+    --primaire-hover: #391f20;    /* --color-1 : Brun chocolat profond pour le survol (hover) */
+    
+    /* Bordures, badges et états secondaires */
+    --bordure: #d9d6df;           /* --color-2 : Gris lavande clair pour des séparations très épurées */
+    --secondaire: #7d6f77;        /* --color-8 : Gris de roche pour les boutons secondaires ou désactivés */
+    --info: #b8aeb0;              /* --color-9 : Gris perle pour les arrière-plans d'éléments neutres */
+    
+    /* Ombres légères pour garder le style épuré */
+    --ombre: 0 1px 2px rgba(9, 11, 60, 0.05);
+    --ombre-md: 0 4px 12px rgba(9, 11, 60, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--fond);
+    color: var(--texte);
+    line-height: 1.6;
+}
+
+/* HEADER */
+.header {
+    background: var(--blanc);
+    box-shadow: var(--ombre);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 70px;
+}
+
+.header-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primaire);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--texte-secondaire);
+}
+
+.header-user-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primaire);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blanc);
+    font-weight: bold;
+}
+
+/* MAIN LAYOUT */
+.layout {
+    display: flex;
+    min-height: calc(100vh - 70px);
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background: var(--blanc);
+    border-right: 1px solid var(--bordure);
+    padding: 20px 0;
+    overflow-y: auto;
+    position: fixed;
+    height: calc(100vh - 70px);
+    left: 0;
+    top: 70px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    margin: 0;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: var(--texte-secondaire);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+    background: var(--fond);
+    color: var(--primaire);
+    border-left-color: var(--primaire);
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 30px;
+    background: var(--fond);
+}
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    color: var(--texte);
+}
+
+.page-header p {
+    color: var(--texte-secondaire);
+    font-size: 0.95rem;
+}
+
+/* CARTES */
+.grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.carte {
+    background: var(--blanc);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: var(--ombre);
+    transition: all 0.3s ease;
+}
+
+.carte:hover {
+    box-shadow: var(--ombre-md);
+    transform: translateY(-2px);
+}
+
+.carte h2 {
+    font-size: 1.15rem;
+    margin-bottom: 20px;
+    color: var(--texte);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--fond-dark);
+}
+
+.carte-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--primaire);
+    color: var(--blanc);
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.carte-stat-nombre {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.carte-stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* FORMULAIRES */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-groupe {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--texte);
+}
+
+input, select, textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--bordure);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primaire);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* BOUTONS */
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--primaire);
+    color: var(--blanc);
+}
+
+button:hover {
+    background: var(--primaire-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--ombre-md);
+}
+
+button.danger {
+    background: var(--danger);
+    color: var(--blanc);
+}
+
+button.danger:hover {
+    background: var(--danger-hover);
+}
+
+button.petit {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+/* TABLEAUX */
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+thead {
+    background: var(--fond);
+}
+
+th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--texte);
+    border-bottom: 2px solid var(--bordure);
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--bordure);
+}
+
+tr:hover {
+    background: var(--fond);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .layout {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--bordure);
+        padding: 10px 0;
+        display: none;
+    }
+    
+    .sidebar.active {
+        display: block;
+    }
+    
+    .sidebar-menu {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .sidebar-menu a {
+        flex: 1;
+        min-width: 150px;
+        padding: 10px 15px;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+        border-left: none;
+        border-bottom-color: var(--primaire);
+        background: var(--fond);
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+    
+    .grille {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .header-content {
+        height: auto;
+        padding: 15px 20px;
+    }
+    
+    .header-user {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .carte-stat {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .action-cell {
+        flex-direction: column;
+    }
+    
+    table {
+        font-size: 0.8rem;
+    }
+    
+    button, .btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+}
